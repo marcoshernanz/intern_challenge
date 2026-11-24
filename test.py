@@ -82,7 +82,7 @@ def run_placement_test(
     # Initialize positions with random spread
     total_cells = cell_features.shape[0]
     total_area = cell_features[:, 0].sum().item()
-    spread_radius = (total_area ** 0.5) * 0.6
+    spread_radius = (total_area**0.5) * 0.6
 
     angles = torch.rand(total_cells) * 2 * 3.14159
     radii = torch.rand(total_cells) * spread_radius
@@ -138,12 +138,14 @@ def run_all_tests():
 
     for idx, (test_id, num_macros, num_std_cells, seed) in enumerate(TEST_CASES, 1):
         size_category = (
-            "Small" if num_std_cells <= 30
-            else "Medium" if num_std_cells <= 100
-            else "Large"
+            "Small"
+            if num_std_cells <= 30
+            else "Medium" if num_std_cells <= 100 else "Large"
         )
 
-        print(f"Test {idx}/{len(TEST_CASES)}: {size_category} ({num_macros} macros, {num_std_cells} std cells)")
+        print(
+            f"Test {idx}/{len(TEST_CASES)}: {size_category} ({num_macros} macros, {num_std_cells} std cells)"
+        )
         print(f"  Seed: {seed}")
 
         # Run test
@@ -158,7 +160,9 @@ def run_all_tests():
 
         # Print summary
         status = "✓ PASS" if result["num_cells_with_overlaps"] == 0 else "✗ FAIL"
-        print(f"  Overlap Ratio: {result['overlap_ratio']:.4f} ({result['num_cells_with_overlaps']}/{result['total_cells']} cells)")
+        print(
+            f"  Overlap Ratio: {result['overlap_ratio']:.4f} ({result['num_cells_with_overlaps']}/{result['total_cells']} cells)"
+        )
         print(f"  Normalized WL: {result['normalized_wl']:.4f}")
         print(f"  Time: {result['elapsed_time']:.2f}s")
         print(f"  Status: {status}")
